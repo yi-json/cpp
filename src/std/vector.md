@@ -29,6 +29,60 @@ v.push_back(Interval(1, 5)); // builds temp Interval, copies it in
 v.emplace_back(1, 5);        // builds the Interval directly in vector, no temp
 ```
 
+### Iterating a Vector
+
+**Read-Only (making copies)**
+
+If you only need to read values and the elements are cheap to copy (like integers),
+you can copy each value into the loop variable
+
+```cpp
+std::vector<int> vec = {10, 20, 30};
+
+for (auto x : vec) {
+    std::cout << x << " "; // Prints: 10 20 30
+}
+```
+
+**Read-Only (By `const` Reference)**
+
+If your vector contains heavy objects (like `std::string` or custom classes), 
+use `const auto&` to avoid expensive copies while ensuring the vector data cannot be modified.
+
+```cpp
+std::vector<std::string> words = {"apple", "banana", "cherry"};
+
+for (const auto& word : words) {
+    std::cout << word << " ";
+}
+```
+
+**Modifying Elements (By Reference)**
+
+If you need to change the actual values inside the vector, use a non-const reference (`auto&`).
+
+```cpp
+std::vector<int> vec = {1, 2, 3};
+
+for (auto& x : vec) {
+    x *= 2; // Doubles each element in the original vector
+}
+// vec is now {2, 4, 6}
+```
+
+**Traditional Iterator-Based**
+
+If you need direct access to the pointer-like iterator to erase elements, use standard algorithms, or need the index positioning, you can use `auto` to replace the verbose iterator declaration.
+
+```cpp
+std::vector<int> vec = {10, 20, 30};
+
+// 'it' is automatically deduced as std::vector<int>::iterator
+for (auto it = vec.begin(); it != vec.end(); ++it) {
+    std::cout << *it << " "; // Dereference the iterator to get the value
+}
+```
+
 ## 2D Vectors
 
 ### Initialization
